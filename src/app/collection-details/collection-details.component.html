@@ -1,0 +1,23 @@
+<div class="p-2 pe-auto" (click)="getBack()">
+  <a href="#" class="pe-auto">Go Back to Home</a>
+</div>
+
+<div class="row" *ngIf="artwork$ | async as artwork; else loading">
+  <div class="col-12 col-lg-6 m-0 pt-5">
+    <img
+      class="img-fluid pt-5"
+      [src]="artwork.artObject.webImage.url.slice(0, -1) + '900'"
+      [alt]="artwork.artObject.title"
+    />
+  </div>
+  <div class="col-12 col-lg-6 m-0 pt-5">
+    <h2 class="pt-5">{{ artwork.artObject.longTitle }}</h2>
+    <h3 class="pt-3">{{ artwork.artObject.principalMaker }}</h3>
+    <p class="pt-3">{{ artwork.artObject.description }}</p>
+    <p class="pt-3">{{ artwork.artObject.plaqueDescriptionDutch }}</p>
+  </div>
+</div>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>

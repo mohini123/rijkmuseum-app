@@ -1,0 +1,55 @@
+<div class="col-12 d-flex align-items-center justify-content-center pt-5">
+  <div class="search-box d-flex">
+    <input
+      class="form-control mr-sm-2"
+      type="search"
+      [(ngModel)]="searchTerm"
+      placeholder="Search..."
+      (keyup.enter)="searchArtwork(searchTerm)"
+    />
+  </div>
+</div>
+
+<div class="row pt-5 m-0">
+  <ng-container *ngIf="collections$ | async as collections; else errorTemplate">
+    <ng-container *ngIf="collections.length > 0; else noFoundTemplate">
+      <div
+        class="col-12 col-md-6 col-lg-4"
+        *ngFor="let collection of collections; let i = index"
+      >
+        <div class="p-sm-2 p-lg-3">
+          <div
+            class="image-card container card-body pt-3"
+            (click)="goToDetails(collection.objectNumber)"
+          >
+            <img
+              [ngSrc]="collection.webImage.url.slice(0, -1) + '300'"
+              [alt]="collection.title"
+              class="card-img-top rounded-2 mb-3"
+              height="300"
+              width="300"
+              [priority]="i <= 6"
+            />
+            <h5 class="card-title">{{ collection.title }}</h5>
+            <p class="card-text">
+              <strong>Artist: </strong>
+              {{ collection.principalOrFirstMaker }} Place :
+              {{ collection.productionPlaces }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>
+<ng-template #errorTemplate>
+  <ng-container *ngIf="loading"> <app-loading></app-loading> </ng-container>
+
+  <h2 *ngIf="!loading">Error div</h2>
+</ng-template>
+<ng-template #noFoundTemplate> <h2>Images not found</h2> </ng-template>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+  <div *ngIf="ErrorMsg"><strong>No Serch Results Found</strong></div>
+</ng-template>
