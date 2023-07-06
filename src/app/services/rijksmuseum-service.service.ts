@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Collection } from '../rijksmuseum-workspace/collection';
+import { ArtObjectCollection, Collection } from '../rijksmuseum-workspace/collection';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,6 @@ export class RijksmuseumService {
   private readonly apiKey = 'mskpm3VW';
   private readonly COLLECTION_URL =
     'https://www.rijksmuseum.nl/api/nl/collection';
-  private DETAILS_URL = 'https://www.rijksmuseum.nl/api/nl/collection';
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +24,6 @@ export class RijksmuseumService {
 
   getDetails(objectId: string) {
     const url = `${this.COLLECTION_URL}/${objectId}?key=${this.apiKey}`;
-    return this.http.get(url);
+    return this.http.get<ArtObjectCollection>(url);
   }
 }
